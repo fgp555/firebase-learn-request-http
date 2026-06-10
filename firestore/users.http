@@ -1,0 +1,51 @@
+@projectId = {{$dotenv FIREBASE_PROJECT_ID}}
+@apiKey = {{$dotenv FIREBASE_API_KEY}}
+@email = {{$dotenv EMAIL}}
+@password = {{$dotenv PASSWORD}}
+@token = {{$dotenv TOKEN}}
+
+###
+# Create user1
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/users/user1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "name": {
+      "stringValue": "Frank GP"
+    },
+    "age": {
+      "integerValue": "30"
+    }
+  }
+}
+
+###
+# Get all users
+GET https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/users
+Authorization: Bearer {{token}}
+
+###
+# Get user1
+GET https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/users/user1
+Authorization: Bearer {{token}}
+
+###
+# Update age
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/users/user1?updateMask.fieldPaths=age
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "age": {
+      "integerValue": "31"
+    }
+  }
+}
+
+###
+# Delete user1
+DELETE https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/users/user1
+Authorization: Bearer {{token}}

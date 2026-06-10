@@ -1,0 +1,25 @@
+@apiKey = {{$dotenv FIREBASE_API_KEY}}
+@email = {{$dotenv EMAIL}}
+@password = {{$dotenv PASSWORD}}
+
+###
+# Sign up
+POST https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "returnSecureToken": true
+}
+
+###
+# Sign in
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "returnSecureToken": true
+}

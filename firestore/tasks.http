@@ -1,0 +1,22 @@
+@projectId = {{$dotenv FIREBASE_PROJECT_ID}}
+@token = {{$dotenv TOKEN}}
+
+###
+# Create task
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks/task1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "title": {
+      "stringValue": "Learn English"
+    },
+    "hours": {
+      "integerValue": "1"
+    },
+    "completed": {
+      "booleanValue": false
+    }
+  }
+}

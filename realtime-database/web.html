@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Todo App</title>
+
+    <style>
+      body {
+        max-width: 600px;
+        margin: auto;
+        font-family: Arial, sans-serif;
+      }
+
+      form {
+        display: flex;
+        gap: 10px;
+      }
+
+      input {
+        flex: 1;
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px 16px;
+      }
+
+      li {
+        margin: 10px 0;
+      }
+
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Todo App</h1>
+
+    <form id="todoForm">
+      <input id="title" type="text" placeholder="New todo" required />
+      <button>Add</button>
+    </form>
+
+    <hr />
+
+    <ul id="todoList"></ul>
+
+    <script>
+      const apiKey = "AIzaSyCgcAVuUgZwmyhB3nxX-F8-7t6g5HdMSpI";
+
+      const email = "frankgp@gmail.com";
+      const password = "123456";
+
+      const databaseUrl = "https://frank-gp-default-rtdb.firebaseio.com";
+
+      let token = "";
+
+      async function signIn() {
+        const response = await fetch(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              returnSecureToken: true,
+            }),
+          },
+        );
+
+        const data = await response.json();
+
+        token = data.idToken;
+
+        console.log("Signed in");
+      }
+
+      async function getTodos() {
+        const response = await fetch(`${databaseUrl}/todos.json?auth=${token}`);
+
+        return await response.json();
+      }
+
+      async function createTodo(title) {
+        await fetch(`${databaseUrl}/todos.json?auth=${token}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            completed: false,
+          }),
+        });
+
+        await renderTodos();
+      }
+
+      async function updateTodo(id, completed) {
+        await fetch(`${databaseUrl}/todos/${id}.json?auth=${token}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            completed,
+          }),
+        });
+
+        await renderTodos();
+      }
+
+      async function deleteTodo(id) {
+        await fetch(`${databaseUrl}/todos/${id}.json?auth=${token}`, {
+          method: "DELETE",
+        });
+
+        await renderTodos();
+      }
+
+      async function renderTodos() {
+        const todos = await getTodos();
+
+        const list = document.querySelector("#todoList");
+
+        list.innerHTML = "";
+
+        if (!todos) {
+          return;
+        }
+
+        for (const id in todos) {
+          const todo = todos[id];
+
+          const li = document.createElement("li");
+
+          li.innerHTML = `
+            <span class="${todo.completed ? "completed" : ""}">
+                ${todo.title}
+            </span>
+
+            <button onclick="toggleTodo('${id}', ${!todo.completed})">
+                ${todo.completed ? "Undo" : "Done"}
+            </button>
+
+            <button onclick="removeTodo('${id}')">
+                Delete
+            </button>
+        `;
+
+          list.appendChild(li);
+        }
+      }
+
+      window.toggleTodo = async (id, completed) => {
+        await updateTodo(id, completed);
+      };
+
+      window.removeTodo = async (id) => {
+        await deleteTodo(id);
+      };
+
+      document.querySelector("#todoForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const input = document.querySelector("#title");
+
+        await createTodo(input.value);
+
+        input.value = "";
+      });
+
+      async function main() {
+        await signIn();
+
+        await renderTodos();
+      }
+
+      main();
+    </script>
+  </body>
+</html>

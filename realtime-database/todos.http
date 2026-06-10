@@ -1,0 +1,73 @@
+@databaseUrl = https://frank-gp-default-rtdb.firebaseio.com
+@token = {{$dotenv TOKEN}}
+
+###
+# Create todo with auto-generated id
+POST {{databaseUrl}}/todos.json?auth={{token}}
+Content-Type: application/json
+
+{
+  "title": "Read a book",
+  "completed": false
+}
+
+###
+# Create todo1
+PUT {{databaseUrl}}/todos/todo1.json?auth={{token}}
+Content-Type: application/json
+
+{
+  "title": "Learn English",
+  "completed": false
+}
+
+###
+# Create todo2
+PUT {{databaseUrl}}/todos/todo2.json?auth={{token}}
+Content-Type: application/json
+
+{
+  "title": "Go to gym",
+  "completed": false
+}
+
+###
+# Get all todos
+GET {{databaseUrl}}/todos.json?auth={{token}}
+
+###
+# Get todo1
+GET {{databaseUrl}}/todos/todo1.json?auth={{token}}
+
+###
+# Mark todo1 as completed
+PATCH {{databaseUrl}}/todos/todo1.json?auth={{token}}
+Content-Type: application/json
+
+{
+  "completed": true
+}
+
+###
+# Rename todo1
+PATCH {{databaseUrl}}/todos/todo1.json?auth={{token}}
+Content-Type: application/json
+
+{
+  "title": "Learn Flutter"
+}
+
+###
+# Update multiple fields
+PATCH {{databaseUrl}}/todos/todo1.json?auth={{token}}
+Content-Type: application/json
+
+{
+  "title": "Learn Dart",
+  "completed": false
+}
+
+###
+# Delete todo1
+DELETE {{databaseUrl}}/todos/todo1.json?auth={{token}}
+
