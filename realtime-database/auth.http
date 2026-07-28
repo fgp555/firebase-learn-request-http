@@ -2,8 +2,32 @@
 @email = {{$dotenv EMAIL}}
 @password = {{$dotenv PASSWORD}}
 
+@idToken = {{$dotenv ID_TOKEN}}
+@localId = {{$dotenv LOCAL_ID}}
+
+
+#################################
+# LOGIN
+#################################
+
 ###
-# Sign up
+# Sign in - Get token
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "returnSecureToken": true
+}
+
+
+#################################
+# CREATE
+#################################
+
+###
+# Sign up - Create user
 POST https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={{apiKey}}
 Content-Type: application/json
 
@@ -13,13 +37,47 @@ Content-Type: application/json
   "returnSecureToken": true
 }
 
+#################################
+# READ
+#################################
+
 ###
-# Sign in
-POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{apiKey}}
+# Get user information
+POST https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={{apiKey}}
 Content-Type: application/json
 
 {
-  "email": "{{email}}",
-  "password": "{{password}}",
+  "idToken": "{{idToken}}"
+}
+
+
+#################################
+# UPDATE
+#################################
+
+###
+# Update email/password/profile
+POST https://identitytoolkit.googleapis.com/v1/accounts:update?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "idToken": "{{idToken}}",
+  "email": "newemail@example.com",
+  "password": "newPassword123",
+  "displayName": "Frank",
   "returnSecureToken": true
+}
+
+
+#################################
+# DELETE
+#################################
+
+###
+# Delete user account
+POST https://identitytoolkit.googleapis.com/v1/accounts:delete?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "idToken": "{{idToken}}"
 }

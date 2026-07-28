@@ -1,0 +1,98 @@
+@baseUrl = http://localhost:3000
+@uid = USER_UID
+
+
+#################################
+# GET
+#################################
+
+###
+# Get all users
+GET http://localhost:3000/users
+
+
+###
+# Get user by UID
+GET http://localhost:3000/users/{{uid}}
+
+
+
+#################################
+# POST
+#################################
+
+###
+# Create user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  "password": "123456",
+  "displayName": "Test User"
+}
+
+
+
+#################################
+# PATCH
+#################################
+
+###
+# Update user display name
+PATCH http://localhost:3000/users/{{uid}}
+Content-Type: application/json
+
+{
+  "displayName": "Frank Updated"
+}
+
+
+###
+# Update email
+PATCH http://localhost:3000/users/{{uid}}
+Content-Type: application/json
+
+{
+  "email": "newemail@gmail.com"
+}
+
+
+###
+# Update password
+PATCH http://localhost:3000/users/{{uid}}
+Content-Type: application/json
+
+{
+  "password": "newPassword123"
+}
+
+
+###
+# Disable user
+PATCH http://localhost:3000/users/{{uid}}
+Content-Type: application/json
+
+{
+  "disabled": true
+}
+
+
+###
+# Enable user
+PATCH http://localhost:3000/users/{{uid}}
+Content-Type: application/json
+
+{
+  "disabled": false
+}
+
+
+
+#################################
+# DELETE
+#################################
+
+###
+# Delete user
+DELETE http://localhost:3000/users/{{uid}}

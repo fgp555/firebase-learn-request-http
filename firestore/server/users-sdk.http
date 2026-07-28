@@ -1,0 +1,62 @@
+@host = http://localhost:3000
+
+###
+# Get all users
+GET http://localhost:3000/users
+
+###
+# Get user by UID
+GET http://localhost:3000/users/WPHqkwBkE6NSAwZomD7yij9MP3q1
+
+###
+# Create user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "12345678",
+  "displayName": "John Doe"
+}
+
+###
+# Update user
+PATCH http://localhost:3000/users/WPHqkwBkE6NSAwZomD7yij9MP3q1
+Content-Type: application/json
+
+{
+  "displayName": "John Smith",
+  "email": "johnsmith@example.com",
+  "disabled": false
+}
+
+###
+# Disable user
+PATCH http://localhost:3000/users/WPHqkwBkE6NSAwZomD7yij9MP3q1
+Content-Type: application/json
+
+{
+  "disabled": true
+}
+
+###
+# Enable user
+PATCH http://localhost:3000/users/WPHqkwBkE6NSAwZomD7yij9MP3q1
+Content-Type: application/json
+
+{
+  "disabled": false
+}
+
+###
+# Change password
+PATCH http://localhost:3000/users/WPHqkwBkE6NSAwZomD7yij9MP3q1
+Content-Type: application/json
+
+{
+  "password": "NewPassword123"
+}
+
+###
+# Delete user
+DELETE http://localhost:3000/users/WPHqkwBkE6NSAwZomD7yij9MP3q1

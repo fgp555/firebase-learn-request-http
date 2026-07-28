@@ -3,7 +3,8 @@
 @email = {{$dotenv EMAIL}}
 @password = {{$dotenv PASSWORD}}
 @token = {{$dotenv TOKEN}}
-
+# @firestoreUrl = https://firestore.googleapis.com/v1/projects
+# https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents
 ###
 # Create user1
 PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/users/user1

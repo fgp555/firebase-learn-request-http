@@ -5,6 +5,15 @@
 @token = {{$dotenv TOKEN}}
 
 ###
+# Get current user
+POST https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "idToken": "{{token}}"
+}
+
+###
 # Sign up
 POST https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={{apiKey}}
 Content-Type: application/json
@@ -24,4 +33,35 @@ Content-Type: application/json
   "email": "{{email}}",
   "password": "{{password}}",
   "returnSecureToken": true
+}
+
+###
+# Update profile (displayName)
+POST https://identitytoolkit.googleapis.com/v1/accounts:update?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "idToken": "{{token}}",
+  "displayName": "Frank GP",
+  "returnSecureToken": true
+}
+
+###
+# Update password
+POST https://identitytoolkit.googleapis.com/v1/accounts:update?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "idToken": "{{token}}",
+  "password": "NewPassword123",
+  "returnSecureToken": true
+}
+
+###
+# Delete account
+POST https://identitytoolkit.googleapis.com/v1/accounts:delete?key={{apiKey}}
+Content-Type: application/json
+
+{
+  "idToken": "{{token}}"
 }

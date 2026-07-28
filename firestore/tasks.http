@@ -2,7 +2,37 @@
 @token = {{$dotenv TOKEN}}
 
 ###
-# Create task
+# Get all tasks
+GET https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks
+Authorization: Bearer {{token}}
+
+###
+# Get task by ID
+GET https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks/task1
+Authorization: Bearer {{token}}
+
+###
+# Create task (Auto ID)
+POST https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "title": {
+      "stringValue": "Learn English"
+    },
+    "hours": {
+      "integerValue": "1"
+    },
+    "completed": {
+      "booleanValue": false
+    }
+  }
+}
+
+###
+# Create task (Custom ID = task1)
 PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks/task1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -20,3 +50,42 @@ Content-Type: application/json
     }
   }
 }
+
+###
+# Update task (Replace fields)
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks/task1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "title": {
+      "stringValue": "Learn Firebase REST API"
+    },
+    "hours": {
+      "integerValue": "2"
+    },
+    "completed": {
+      "booleanValue": true
+    }
+  }
+}
+
+###
+# Partial update (Title only)
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks/task1?updateMask.fieldPaths=title
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "title": {
+      "stringValue": "Master Firestore"
+    }
+  }
+}
+
+###
+# Delete task
+DELETE https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/tasks/task1
+Authorization: Bearer {{token}}

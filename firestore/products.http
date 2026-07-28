@@ -1,9 +1,38 @@
 @projectId = {{$dotenv FIREBASE_PROJECT_ID}}
 @token = {{$dotenv TOKEN}}
 
+###
+# Get all products
+GET https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products
+Authorization: Bearer {{token}}
 
 ###
-# Create product
+# Get product by ID
+GET https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products/rice
+Authorization: Bearer {{token}}
+
+###
+# Create product (Auto ID)
+POST https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "name": {
+      "stringValue": "Rice"
+    },
+    "price": {
+      "doubleValue": 10.5
+    },
+    "quantity": {
+      "integerValue": "1"
+    }
+  }
+}
+
+###
+# Create product (Custom ID = rice)
 PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products/rice
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -21,3 +50,42 @@ Content-Type: application/json
     }
   }
 }
+
+###
+# Update product (Replace fields)
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products/rice
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "name": {
+      "stringValue": "Brown Rice"
+    },
+    "price": {
+      "doubleValue": 12.99
+    },
+    "quantity": {
+      "integerValue": "5"
+    }
+  }
+}
+
+###
+# Partial update (Price only)
+PATCH https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products/rice?updateMask.fieldPaths=price
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fields": {
+    "price": {
+      "doubleValue": 15.50
+    }
+  }
+}
+
+###
+# Delete product
+DELETE https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/(default)/documents/products/rice
+Authorization: Bearer {{token}}

@@ -1,9 +1,26 @@
 @databaseUrl = https://frank-gp-default-rtdb.firebaseio.com
-@token = {{$dotenv TOKEN}}
+@idToken = {{$dotenv ID_TOKEN}}
+
+#################################
+# GET
+#################################
+
+###
+# Get all todos
+GET {{databaseUrl}}/todos.json?auth={{idToken}}
+
+###
+# Get todo1
+GET {{databaseUrl}}/todos/todo1.json?auth={{idToken}}
+
+
+#################################
+# POST
+#################################
 
 ###
 # Create todo with auto-generated id
-POST {{databaseUrl}}/todos.json?auth={{token}}
+POST {{databaseUrl}}/todos.json?auth={{idToken}}
 Content-Type: application/json
 
 {
@@ -11,9 +28,14 @@ Content-Type: application/json
   "completed": false
 }
 
+
+#################################
+# PUT
+#################################
+
 ###
-# Create todo1
-PUT {{databaseUrl}}/todos/todo1.json?auth={{token}}
+# Create/replace todo1
+PUT {{databaseUrl}}/todos/todo1.json?auth={{idToken}}
 Content-Type: application/json
 
 {
@@ -22,8 +44,8 @@ Content-Type: application/json
 }
 
 ###
-# Create todo2
-PUT {{databaseUrl}}/todos/todo2.json?auth={{token}}
+# Create/replace todo2
+PUT {{databaseUrl}}/todos/todo2.json?auth={{idToken}}
 Content-Type: application/json
 
 {
@@ -31,17 +53,14 @@ Content-Type: application/json
   "completed": false
 }
 
-###
-# Get all todos
-GET {{databaseUrl}}/todos.json?auth={{token}}
 
-###
-# Get todo1
-GET {{databaseUrl}}/todos/todo1.json?auth={{token}}
+#################################
+# PATCH
+#################################
 
 ###
 # Mark todo1 as completed
-PATCH {{databaseUrl}}/todos/todo1.json?auth={{token}}
+PATCH {{databaseUrl}}/todos/todo1.json?auth={{idToken}}
 Content-Type: application/json
 
 {
@@ -50,7 +69,7 @@ Content-Type: application/json
 
 ###
 # Rename todo1
-PATCH {{databaseUrl}}/todos/todo1.json?auth={{token}}
+PATCH {{databaseUrl}}/todos/todo1.json?auth={{idToken}}
 Content-Type: application/json
 
 {
@@ -59,7 +78,7 @@ Content-Type: application/json
 
 ###
 # Update multiple fields
-PATCH {{databaseUrl}}/todos/todo1.json?auth={{token}}
+PATCH {{databaseUrl}}/todos/todo1.json?auth={{idToken}}
 Content-Type: application/json
 
 {
@@ -67,7 +86,11 @@ Content-Type: application/json
   "completed": false
 }
 
+
+#################################
+# DELETE
+#################################
+
 ###
 # Delete todo1
-DELETE {{databaseUrl}}/todos/todo1.json?auth={{token}}
-
+DELETE {{databaseUrl}}/todos/todo1.json?auth={{idToken}}
